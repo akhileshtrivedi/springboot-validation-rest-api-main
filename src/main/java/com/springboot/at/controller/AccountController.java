@@ -56,9 +56,7 @@ public class AccountController {
   })
   @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public RestApiResponse<Account> create(@Valid @ModelAttribute AccountRequest accountRequest) {
-    System.out.println("I am here" + accountRequest.getName());
-    System.out.println("I am here" + accountRequest.getWebsite());
-    System.out.println("I am here" + accountRequest.getLogo());
+
     Account savedAccount = accountService.create(accountRequest);
     //return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
 
