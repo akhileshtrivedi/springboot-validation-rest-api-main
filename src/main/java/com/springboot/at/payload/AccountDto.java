@@ -1,4 +1,4 @@
-package com.springboot.at.dao.request;
+package com.springboot.at.payload;
 
 
 
@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @AtLeastOneNotEmpty(fields = {"name", "website", "productUrl", "logo", "logoUrl", "size",
     "annualRevenue", "annualAdSpend"})
-public class AccountRequest {
+public class AccountDto {
 
   @NotBlank(message = "The name is required.")
   private String name;

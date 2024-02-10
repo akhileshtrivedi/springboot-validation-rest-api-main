@@ -1,7 +1,7 @@
 package com.springboot.at.service.impl;
 
 
-import com.springboot.at.dao.request.AccountRequest;
+import com.springboot.at.payload.AccountDto;
 import com.springboot.at.entity.Account;
 import com.springboot.at.exception.DuplicateRecordException;
 import com.springboot.at.repository.AccountRepository;
@@ -18,7 +18,7 @@ public class AccountServiceImpl implements AccountService {
   private final AccountRepository accountRepository;
 
   @Override
-  public Account update(Integer accountId, AccountRequest request) {
+  public Account update(Integer accountId, AccountDto request) {
     accountRepository.findByName(request.getName()).ifPresent(account -> {
           if (!account.getId().equals(
               accountId)) {
@@ -36,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
     return null;
   }
 
-  private Account getAccountToSave(AccountRequest request, Account dbAccount) {
+  private Account getAccountToSave(AccountDto request, Account dbAccount) {
     if (Objects.nonNull(request.getName())) {
       dbAccount.setName(request.getName());
     }
@@ -78,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public Account create(AccountRequest obj) {
+  public Account create(AccountDto obj) {
     return accountRepository.save(Account.builder()
         .name(obj.getName())
         .website(obj.getWebsite())

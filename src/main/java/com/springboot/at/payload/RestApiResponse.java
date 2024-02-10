@@ -1,4 +1,4 @@
-package com.springboot.at.dao.response;
+package com.springboot.at.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

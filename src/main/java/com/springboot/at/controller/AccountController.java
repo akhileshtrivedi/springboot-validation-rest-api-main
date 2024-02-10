@@ -3,9 +3,9 @@ package com.springboot.at.controller;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-import com.springboot.at.dao.request.AccountRequest;
-import com.springboot.at.dao.response.RestApiError;
-import com.springboot.at.dao.response.RestApiResponse;
+import com.springboot.at.payload.AccountDto;
+import com.springboot.at.payload.RestApiError;
+import com.springboot.at.payload.RestApiResponse;
 import com.springboot.at.entity.Account;
 import com.springboot.at.exception.RecordNotFoundException;
 import com.springboot.at.service.AccountService;
@@ -25,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,9 +54,9 @@ public class AccountController {
           @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))})
   })
   @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public RestApiResponse<Account> create(@Valid @ModelAttribute AccountRequest accountRequest) {
+  public RestApiResponse<Account> create(@Valid @ModelAttribute AccountDto accountDto) {
 
-    Account savedAccount = accountService.create(accountRequest);
+    Account savedAccount = accountService.create(accountDto);
     //return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
 
     return new RestApiResponse<>(HttpStatus.CREATED.value(),
@@ -77,7 +76,7 @@ public class AccountController {
   })
   @PutMapping(value = "{id}", produces = APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public RestApiResponse<Account> update(@PathVariable("id") Integer id,
-      @Valid @ModelAttribute AccountRequest request) {
+      @Valid @ModelAttribute AccountDto request) {
     Account account = accountService.findById(id);
     if (account == null) {
       throw new RecordNotFoundException("Account not found");

@@ -22,7 +22,8 @@ public class AuthController {
     }
 
     // Build Login REST API
-    @PostMapping(value = {"/login", "/signin"})
+ //   @PostMapping(value = {"/login", "/signin"})
+    @PostMapping(value = {"/signin"})
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto){
         String token = authService.login(loginDto);
 
@@ -33,7 +34,8 @@ public class AuthController {
     }
 
     // Build Register REST API
-    @PostMapping(value = {"/register", "/signup"})
+    // @PostMapping(value = {"/register", "/signup"})
+    @PostMapping(value = {"/signup"})
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

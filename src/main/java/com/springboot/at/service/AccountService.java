@@ -1,7 +1,7 @@
 package com.springboot.at.service;
 
 
-import com.springboot.at.dao.request.AccountRequest;
+import com.springboot.at.payload.AccountDto;
 import com.springboot.at.entity.Account;
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface AccountService {
 
   void delete(Integer id);
 
-  Account create(AccountRequest obj);
+  Account create(AccountDto obj);
 
-  Account update(Integer id, AccountRequest obj);
+  Account update(Integer id, AccountDto obj);
 }

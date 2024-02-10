@@ -1,4 +1,4 @@
-package com.springboot.at.dao.response;
+package com.springboot.at.payload;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Map;

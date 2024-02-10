@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
 
-@RestController
+//@RestController
 @RequestMapping("/api/posts")
 @Tag(
         name = "CRUD REST APIs for Post Resource"
