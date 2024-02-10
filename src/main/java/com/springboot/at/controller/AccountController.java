@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/v1/accounts")
 @RequiredArgsConstructor
-//@SecurityRequirement(name = "Bearer Authentication")
+@SecurityRequirement(name = "Bearer Authentication")
 public class AccountController {
 
   private final AccountService accountService;
@@ -49,9 +50,11 @@ public class AccountController {
       @ApiResponse(responseCode = "401", description = "Unauthorized. Invalid or missing token", content = {
           @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))})
   })
-  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public RestApiResponse<Account> create(@Valid @ModelAttribute AccountRequest accountRequest) {
+    System.out.println("I am here" + accountRequest.getName());
+    System.out.println("I am here" + accountRequest.getWebsite());
+    System.out.println("I am here" + accountRequest.getLogo());
     Account savedAccount = accountService.create(accountRequest);
     //return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
 
@@ -70,7 +73,6 @@ public class AccountController {
       @ApiResponse(responseCode = "409", description = "Duplicate account name found", content = {
           @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))})
   })
-  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping(value = "{id}", produces = APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public RestApiResponse<Account> update(@PathVariable("id") Integer id,
       @Valid @ModelAttribute AccountRequest request) {

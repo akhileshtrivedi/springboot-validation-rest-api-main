@@ -79,6 +79,15 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public Account create(AccountRequest obj) {
-    return null;
+    return accountRepository.save(Account.builder()
+        .name(obj.getName())
+        .website(obj.getWebsite())
+        .productUrl(obj.getProductUrl())
+       // .logoUrl(obj.getLogoUrl())
+        .size(obj.getSize())
+        .annualRevenue(obj.getAnnualRevenue())
+        .annualAdSpend(obj.getAnnualAdSpend())
+        .active(obj.isActive())
+        .build());
   }
 }
