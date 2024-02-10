@@ -11,18 +11,21 @@ import com.springboot.at.exception.RecordNotFoundException;
 import com.springboot.at.service.AccountService;
 import com.springboot.at.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,23 +94,16 @@ public class AccountController {
 
     return new RestApiResponse<>(HttpStatus.OK.value(), updatedAccount);
   }
-/*
-  @Operation(summary = "Create Account", description = "Create Account")
+  @Operation(summary = "Get list of all account")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "OK", content = {
-          @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = Account.class))}),
+      @ApiResponse(responseCode = "200", description = "OK", content = {
+          @Content(mediaType = APPLICATION_JSON_VALUE, array = @ArraySchema(schema = @Schema(implementation = Account.class)))}),
       @ApiResponse(responseCode = "401", description = "Unauthorized. Invalid or missing token", content = {
-          @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))}),
-      @ApiResponse(responseCode = "404", description = "Account not found", content = {
-          @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))}),
-      @ApiResponse(responseCode = "409", description = "Duplicate account name found", content = {
           @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))})
   })
-  @PostMapping(value = "{id}", produces = APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public RestApiResponse<Account> CreateAccount(@Valid @ModelAttribute AccountRequest request) {
-    System.out.println("I am here");
-
-    return new RestApiResponse<>(HttpStatus.OK.value(), new Account() );
+  @GetMapping(produces = APPLICATION_JSON_VALUE)
+  public RestApiResponse<List<Account>> list() {
+    List<Account> accountList = accountService.fetchAll();
+    return new RestApiResponse<>(HttpStatus.OK.value(), accountList);
   }
-*/
 }
