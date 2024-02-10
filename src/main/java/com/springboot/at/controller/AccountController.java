@@ -11,6 +11,7 @@ import com.springboot.at.exception.RecordNotFoundException;
 import com.springboot.at.service.AccountService;
 import com.springboot.at.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -105,5 +106,25 @@ public class AccountController {
   public RestApiResponse<List<Account>> list() {
     List<Account> accountList = accountService.fetchAll();
     return new RestApiResponse<>(HttpStatus.OK.value(), accountList);
+  }
+
+  @Operation(summary = "Get a account by its id")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Found the Account", content = {
+          @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = Account.class))}),
+      @ApiResponse(responseCode = "401", description = "Unauthorized. Invalid or missing token", content = {
+          @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))}),
+      @ApiResponse(responseCode = "404", description = "Account not found", content = {
+          @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RestApiError.class))})
+  })
+  @GetMapping(value = "{id}", produces = APPLICATION_JSON_VALUE)
+  public RestApiResponse<Account> get(
+      @Parameter(description = "id of account to be searched") @PathVariable(value = "id") Integer id) {
+    Account account = accountService.findById(id);
+    if (account == null) {
+      throw new RecordNotFoundException("Account not found");
+    }
+
+    return new RestApiResponse<>(HttpStatus.OK.value(), account);
   }
 }
