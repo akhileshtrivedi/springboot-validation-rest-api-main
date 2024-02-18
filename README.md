@@ -1,6 +1,6 @@
 # Custom Validation in Spring Boot 3
 
-This project demonstrates how to implement custom validation in a Spring Boot application.
+This project demonstrates how to implement custom validation in a Spring Boot 3 application.
 
 ## Overview
 
